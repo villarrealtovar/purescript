@@ -8,9 +8,9 @@ You can edit this file as you like.
   "effect",
   "lists",
   "maybe",
-  "tuples",
   "prelude",
-  "psci-support"
+  "psci-support",
+  "tuples"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
