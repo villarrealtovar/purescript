@@ -7,9 +7,12 @@ You can edit this file as you like.
   "console",
   "effect",
   "lists",
+  "integers",
   "maybe",
+  "newtype",
   "prelude",
   "psci-support",
+  "strings",
   "tuples"
   ]
 , packages = ./packages.dhall

@@ -9,6 +9,7 @@ import Effect (Effect)
 import Effect.Console (log)
 import Prelude (Unit, discard, show, ($), (<),  (<=), (==),  (>), (>=))
 
+-- Maybe datatype
 data Maybe a = Nothing | Just a
 
 derive instance eqMaybe :: Eq a => Eq (Maybe a)
@@ -18,6 +19,7 @@ derive instance genericMaybe :: Generic (Maybe a) _
 instance showMaybe :: Show a => Show (Maybe a) where
   show = genericShow
 
+-- Either datatype
 data Either a b = Left a | Right b
 
 derive instance eqEither :: (Eq a, Eq b) => Eq (Either a b)
