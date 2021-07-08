@@ -4,7 +4,8 @@ import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
 import Effect (Effect)
 import Effect.Console (log)
-import Prelude (class Eq, class Show, Unit, discard, show, ($), (==), (&&))
+import Prelude (class Eq, class Show, Unit, discard, show, ($), (&&), (==))
+import Prim.Boolean (True)
 
 
 class Semigroup a where
@@ -30,7 +31,6 @@ instance semigroupAndBool :: Semigroup AndBool where
 instance monoidAndBool :: Monoid AndBool where
   mempty = ATrue
 
-
 verifyAndBoolSemigroup :: Effect Unit
 verifyAndBoolSemigroup = do
   log "Verifying AndBool Semigroup Laws (1 test)"
@@ -39,8 +39,34 @@ verifyAndBoolSemigroup = do
 verifyAndBoolMonoid :: Effect Unit
 verifyAndBoolMonoid = do
   log "Verifying AndBool Monoid Laws (2 test)"
-  log $ show $ mempty <> ATrue == ATrue <> mempty && ATrue <> mempty == ATrue
-  log $ show $ mempty <> AFalse == AFalse <> mempty && AFalse <> mempty == AFalse
+  log $ show $ mempty <> ATrue == ATrue <> mempty && ATrue <> mempty == ATrue -- true
+  log $ show $ mempty <> AFalse == AFalse <> mempty && AFalse <> mempty == AFalse -- true
+
+data OrBool = OFalse | OTrue
+
+derive instance eqOrBool :: Eq OrBool
+derive instance  genericOrBool :: Generic OrBool _
+
+instance showOrBool :: Show OrBool where
+  show = genericShow
+
+instance semigroupOrBool :: Semigroup OrBool where
+  append OFalse OFalse = OFalse
+  append _ _ = OTrue
+
+instance monoidOrBool :: Monoid OrBool where
+  mempty = OFalse
+
+verifyOrBoolSemigroup :: Effect Unit
+verifyOrBoolSemigroup = do
+  log "Verifying OrBool Semigroup Laws (1 test)"
+  log $ show $ (OFalse <> OTrue) <> OTrue == OFalse <> (OTrue <> OTrue) -- true
+
+verifyOrBoolMonoid :: Effect Unit
+verifyOrBoolMonoid = do
+  log "Verifying OrBool Monoid laws (2 tests)"
+  log $ show $ mempty <> OTrue == OTrue <> mempty && OTrue <> mempty == OTrue -- true
+  log $ show $ mempty <> OFalse == OFalse <> mempty && OFalse <> mempty == OFalse -- true
 
 test :: Effect Unit
 test = do
@@ -54,6 +80,8 @@ test = do
   log $ show $ "--------Verifying Laws------------"
   verifyAndBoolSemigroup
   verifyAndBoolMonoid
+  verifyOrBoolSemigroup
+  verifyOrBoolMonoid
 
 
 
